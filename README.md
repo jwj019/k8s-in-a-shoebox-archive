@@ -18,8 +18,8 @@ QUICKSTART
 2) Follow this guide to enable SSH on your Raspbian image: https://hackernoon.com/raspberry-pi-headless-install-462ccabd75d0
 
 3) Install Ansible and other dependencies on your controller host (AKA your local desktop)
-  - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367 && \\
-    sudo apt-get update -y && \\
+  - sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367 && \\\
+    sudo apt-get update -y && \\\
     sudo apt-get install ansible python sshpass -y
 
 4) cp /etc/ansible/ansible.cfg ~/.ansible.cfg
