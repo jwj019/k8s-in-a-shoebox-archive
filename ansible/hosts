@@ -2,6 +2,7 @@
 #
 # It should live in your Git repository, and there should be a link from /etc/ansible/hosts:
 #   /etc/ansible/hosts -> /path/to/myAnsibleProject/hosts
+
 #
 #   - Comments begin with the '#' character
 #   - Blank lines are ignored
@@ -10,10 +11,33 @@
 #   - A hostname/ip can be a member of multiple groups
 
 [anygroup]
-server1     ansible_host=192.168.0.1
-server2     ansible_host=192.168.0.2
-server3     ansible_host=192.168.0.3
-server4     ansible_host=192.168.0.4
+share1    ansible_host=192.168.0.122 ansible_ssh_user=justin
+k8s1      ansible_host=192.168.0.142 ansible_ssh_user=justin
+k8s2      ansible_host=192.168.0.141 ansible_ssh_user=justin
+k8s3      ansible_host=192.168.0.140 ansible_ssh_user=justin
+pi1       ansible_host=192.168.0.115 ansible_ssh_user=justin
+
+[k8s]
+k8s[1:3]
+
+[k8s-master]
+k8s1
+
+[k8s-slaves]
+k8s[2:3]
+
+[pi]
+pi1
+
+[share]
+share1
+
+[odroid]
+k8s[1:3]
+share1
+
+[pi]
+pi1
 
 # Add your own groups here. Hosts can be added to multiple groups like so:
 # [anothergroup]
