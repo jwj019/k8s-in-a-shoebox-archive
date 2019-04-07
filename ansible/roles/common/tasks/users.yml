@@ -1,0 +1,49 @@
+---
+- hosts: anygroup
+  become: true
+  vars:
+    users:
+    - username: "justin"
+      groups: "admin"
+    remove_users:
+    - "pi"
+  handlers:
+  - name: "Restart sshd"
+    service:
+      name: "sshd"
+      state: "restarted"
+  tasks:
+  - name: "Create groups"
+    group:
+      name: "{{ item.groups }}"
+      state: "present"
+    with_items: "{{ users }}"
+  - name: "Create user accounts"
+    user:
+      name: "{{ item.username }}"
+      shell: /bin/bash
+      groups: "{{ item.groups }}"
+      state: "present"
+    with_items: "{{ users }}"
+  - name: "Remove old user accounts in remove_users"
+    user:
+      name: "{{ item }}"
+      state: "absent"
+    with_items: "{{ remove_users }}"
+  - name: "Add authorized keys"
+    authorized_key:
+      user: "{{ item.username }}"
+      key: "{{ lookup('file', '~/.ssh/id_rsa.pub') }}"
+    with_items: "{{ users }}"
+  - name: "Allow admin users to sudo without a password"
+    lineinfile:
+      dest: "/etc/sudoers" # path: in version 2.3
+      state: "present"
+      regexp: "^%admin"
+      line: "%admin ALL=(ALL) NOPASSWD: ALL"
+  - name: "Disable root login via SSH"
+    lineinfile:
+      dest: "/etc/ssh/sshd_config"
+      regexp: "^PermitRootLogin"
+      line: "PermitRootLogin no"
+    notify: "Restart sshd"
