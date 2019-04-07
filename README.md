@@ -1,7 +1,7 @@
 # k8s-in-a-shoebox
 Repo for my home network running openmediavault, Nexus, and Kubernetes on SBCs in a shoebox!
 
-My uses 5 single board computers:
+My cluster uses 5 single board computers:
 - 1 Odroid XU4 (Ubuntu Minimal 18.04)
 - 3 Odroid C2 (Ubuntu Minimal 18.04)
 - 1 Raspberry Pi 3 B+ (Raspbian Stretch Lite 2018-11-13)
