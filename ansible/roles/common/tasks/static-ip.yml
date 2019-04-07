@@ -1,0 +1,55 @@
+---
+- hosts: anygroup
+  become: true
+  vars:
+    hostname: "{{p_hostname}}"
+    ip: "{{p_ip}}"
+  handlers:
+  - name: restart network
+    command: systemctl restart NetworkManager
+  tasks:
+  - name: install nmcli
+    apt:
+      name: "{{packages}}"
+    vars:
+      packages:
+        - libnm-glib-dev
+        - python-dbus
+        - network-manager
+  - name: define traditional ethernet facts
+    set_fact:
+      ansible_eth: "{% set ansible_eth = ansible_eth|default([]) + [hostvars[inventory_hostname]['ansible_' + item]] %}{{ ansible_eth|list }}"
+    when:
+      - hostvars[inventory_hostname]['ansible_' + item]['type'] == 'ether'
+      - hostvars[inventory_hostname]['ansible_' + item]['active'] == true
+    with_items:
+      - "{{ hostvars[inventory_hostname]['ansible_interfaces'] }}"
+  - name: set hostname
+    hostname:
+      name: "{{hostname}}"
+  - name: remove static ip
+    nmcli:
+      conn_name: my-eth1
+      ifname: "{{ansible_eth[0].device}}"
+      type: ethernet
+      ip4: "{{ip}}/32"
+      gw4: 192.168.0.1
+      dns4:
+        - 8.8.8.8
+        - 8.8.4.4
+      state: absent
+    notify:
+      - restart network
+  - name: config static ip
+    nmcli:
+      conn_name: my-eth1
+      ifname: "{{ansible_eth[0].device}}"
+      type: ethernet
+      ip4: "{{ip}}/32"
+      gw4: 192.168.0.1
+      dns4:
+        - 8.8.8.8
+        - 8.8.4.4
+      state: present
+    notify:
+      - restart network
