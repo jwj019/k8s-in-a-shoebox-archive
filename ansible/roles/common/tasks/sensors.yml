@@ -1,0 +1,21 @@
+---
+- hosts: anygroup
+  become: true
+  vars:
+    hostname: "{{p_hostname}}"
+    ip: "{{p_ip}}"
+  handlers:
+  - name: restart network
+    command: reboot
+  tasks:
+  - name: install sensors
+    apt:
+      name: "{{packages}}"
+    vars:
+      packages:
+        - lm-sensors
+        - hddtemp
+  - name: start sensors
+    command: sensors-detect
+  - name: run sensors
+    command: sensors
