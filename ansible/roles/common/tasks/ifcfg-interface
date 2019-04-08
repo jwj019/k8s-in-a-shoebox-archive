@@ -1,0 +1,15 @@
+# cat /etc/ansible/templates/ifcfg-interface
+# configured via ansible
+BOOTPROTO="static"
+DEVICE="{{ansible_eth[0].device}}"
+ONBOOT=yes
+TYPE=Ethernet
+IPADDR="{{ ip }}"
+NETMASK=255.255.255.0
+GATEWAY=192.168.0.1
+DEFROUTE=yes
+PEERDNS=no
+PEERROUTES=yes
+IPV4_FAILURE_FATAL=no
+IPV6INIT=no
+NAME="new-eth0"

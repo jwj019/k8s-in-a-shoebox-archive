@@ -6,7 +6,7 @@
     ip: "{{p_ip}}"
   handlers:
   - name: restart network
-    command: systemctl restart NetworkManager
+    command: reboot
   tasks:
   - name: install nmcli
     apt:
@@ -27,29 +27,13 @@
   - name: set hostname
     hostname:
       name: "{{hostname}}"
-  - name: remove static ip
-    nmcli:
-      conn_name: my-eth1
-      ifname: "{{ansible_eth[0].device}}"
-      type: ethernet
-      ip4: "{{ip}}/32"
-      gw4: 192.168.0.1
-      dns4:
-        - 8.8.8.8
-        - 8.8.4.4
-      state: absent
-    notify:
-      - restart network
-  - name: config static ip
-    nmcli:
-      conn_name: my-eth1
-      ifname: "{{ansible_eth[0].device}}"
-      type: ethernet
-      ip4: "{{ip}}/32"
-      gw4: 192.168.0.1
-      dns4:
-        - 8.8.8.8
-        - 8.8.4.4
-      state: present
-    notify:
-      - restart network
+  - # we asure name resolution before host lookup
+  - name: Setup networking (resolv.conf)
+    template: owner=root group=root mode=644
+              src=resolv.conf
+              dest=/etc/resolv.conf
+
+  - name: Setup networking (interfaces)
+    template: owner=root group=root mode=644
+              src=ifcfg-interface
+              dest=/etc/network/interfaces/{{ansible_eth[0].device}}
