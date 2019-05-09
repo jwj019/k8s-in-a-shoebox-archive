@@ -1,0 +1,50 @@
+---
+- name: Login with default root
+  uri:
+    url: http://{{ ansible_default_ipv4.address }}/rpc.php
+    method: GET
+    body: "{{ lookup('file','requests/login.json') }}"
+    body_format: json
+    status_code: 200
+    return_content: yes
+  register: login
+
+- name: Apply settings
+  uri:
+    url: http://{{ ansible_default_ipv4.address }}/rpc.php
+    method: POST
+    body: "{{ lookup('file','requests/make-user.json') }}"
+    body_format: json
+    remote_src: yes
+    status_code: 200
+    headers:
+      Cookie: "{{ login.set_cookie | regex_search('X-OPENMEDIAVAULT-SESSIONID=\\w+\\;') }}"
+
+- name: Apply settings
+  uri:
+    url: http://{{ ansible_default_ipv4.address }}/rpc.php
+    method: POST
+    body: "{{ lookup('file','requests/apply-changes.json') }}"
+    body_format: json
+    remote_src: yes
+    status_code: 200
+    headers:
+      Cookie: "{{ login.set_cookie | regex_search('X-OPENMEDIAVAULT-SESSIONID=\\w+\\;') }}"
+
+- name: Set correct file permissions for key ssh login
+  become: true
+  file:
+    path: /
+    state: directory
+    mode: 0755
+
+- name: Disable password logins
+  uri:
+    url: http://{{ ansible_default_ipv4.address }}/rpc.php
+    method: POST
+    body: "{{ lookup('file','requests/disable-ssh-password.json') }}"
+    body_format: json
+    remote_src: yes
+    status_code: 200
+    headers:
+      Cookie: "{{ login.set_cookie | regex_search('X-OPENMEDIAVAULT-SESSIONID=\\w+\\;') }}"

@@ -1,0 +1,11 @@
+- name: Setting up OMV server
+  become: yes
+  hosts: share
+  roles:
+    # - roles/base
+    - roles/share
+    # - roles/lockdown
+  vars_files:
+    - ../vars/useraccounts.yml
+    # - ../vars/nas-settings.yml
+    # - ../vars/security-settings.yml
