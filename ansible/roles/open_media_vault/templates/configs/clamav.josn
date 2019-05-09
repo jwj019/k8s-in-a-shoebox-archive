@@ -1,0 +1,24 @@
+{
+    "enable": "{{ clamav_settings.enable }}",
+    "quarantine.sharedfolderref": "",
+    "clamd": {
+        "logclean": "{{ clamav_settings.logclean }}",
+        "scanpe": "{{ clamav_settings.scanpe }}",
+        "scanole2": "{{ clamav_settings.scanole2 }}",
+        "scanhtml": "{{ clamav_settings.scanhtml }}",
+        "scanpdf": "{{ clamav_settings.scanpdf }}",
+        "scanelf": "{{ clamav_settings.scanelf }}",
+        "scanarchive": "{{ clamav_settings.scanarchive }}",
+        "detectbrokenexecutables": "{{ clamav_settings.detectbrokenexecutables }}",
+        "algorithmicdetection": "{{ clamav_settings.algorithmicdetection }}",
+        "followdirectorysymlinks": "{{ clamav_settings.followdirectorysymlinks }}",
+        "followfilesymlinks": "{{ clamav_settings.followfilesymlinks }}",
+        "detectpua": "{{ clamav_settings.detectpua }}",
+        "extraoptions": "{{ clamav_settings.extraoptions }}"
+    },
+    "freshclam": {
+        "enable": "{{ clamav_settings.freshclam.enable }}",
+        "checks": "{{ clamav_settings.freshclam.checks }}"
+    },
+    "jobs": ""
+}

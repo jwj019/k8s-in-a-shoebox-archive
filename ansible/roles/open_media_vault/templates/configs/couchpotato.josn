@@ -1,0 +1,10 @@
+{
+    "enable": "{{ couchpotato.enable }}",
+    "showtab": "{{ couchpotato.showtab }}",
+    "branch": "{{ couchpotato.branch }}",
+    "repo": "{{ couchpotato.repo }}",
+    "port": "{{ couchpotato.port }}",
+    "mntentref": "",
+    "path": "",
+    "forks": ""
+}

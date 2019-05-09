@@ -1,0 +1,14 @@
+{
+    "enable": "{{ sickbeard.enable }}",
+    "show_tab": "{{ sickbeard.show_tab }}",
+    "newinstance": "{{ sickbeard.newinstance }}",
+    "newinstenable": " {{ sickbeard.newinstenable }}",
+    "ppass": "{{ sickbeard.ppass }}",
+    "ssl": "{{ sickbeard.ssl }}",
+    "branch": "{{ sickbeard.branch }}",
+    "repo": "{{ sickbeard.repo }}",
+    "repo2": "{{ sickbeard.repo2 }}",
+    "branch2": "{{ sickbeard.branch2 }}",
+    "port": "{{ sickbeard.port }}",
+    "forks": "{{ sickbeard.forks }}"
+}

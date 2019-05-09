@@ -1,0 +1,7 @@
+{
+    "timezone": "{{ time.timezone }}",
+    "ntp": {
+        "enable": "{{ time.enable }}",
+        "timeservers": "{{ NTPSERVER1 }}"
+    }
+}

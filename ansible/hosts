@@ -11,9 +11,9 @@
 #   - A hostname/ip can be a member of multiple groups
 
 [anygroup]
-share1    ansible_host=192.168.0.122 ansible_ssh_user=justin
+share1    ansible_host=192.168.0.122 ansible_ssh_user=root
 k8s1      ansible_host=192.168.0.142 ansible_ssh_user=justin
-k8s2      ansible_host=192.168.0.141 ansible_ssh_user=justin
+k8s2      ansible_host=192.168.0.143 ansible_ssh_user=justin
 k8s3      ansible_host=192.168.0.140 ansible_ssh_user=justin
 pi1       ansible_host=192.168.0.115 ansible_ssh_user=justin
 

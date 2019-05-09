@@ -1,0 +1,102 @@
+---
+- name: Set network (enable hostname)
+  shell: "omv-config --modify /config/system/omvextrasorg/modules/hostname 1"
+  tags: Setup network
+
+- name: Getting network Config
+  template: src={{role_path}}/templates/configs/network.josn dest=/tmp/network.josn
+  tags: Setup Network
+
+- name: Getting time Config
+  template: src={{role_path}}/templates/configs/time.josn dest=/tmp/time.josn
+  tags: Setup time
+
+- name: Getting Minidlna Config
+  template: src={{role_path}}/templates/configs/minidlna.josn dest=/tmp/minidlna.josn
+  tags: Setup minidlna
+
+- name: Getting clamav Config
+  template: src={{role_path}}/templates/configs/clamav.josn dest=/tmp/clamav.josn
+  tags: Setup clamav
+
+- name: Getting couchpotato Config
+  template: src={{role_path}}/templates/configs/couchpotato.josn dest=/tmp/couchpotato.josn
+  tags: Setup couchpotato
+
+- name: Getting downloader Config
+  template: src={{role_path}}/templates/configs/downloader.josn dest=/tmp/downloader.josn
+  tags: Setup downloader
+
+- name: Getting sickbeard Config
+  template: src={{role_path}}/templates/configs/sickbeard.josn dest=/tmp/sickbeard.josn
+  tags: Setup sickbeard
+
+- name: Minidlna Config
+  shell: omv-config -m /config/services/minidlna "`cat /tmp/minidlna.josn`"
+  tags: Setup minidlna
+
+- name: Clamav Config
+  shell: omv-config -m /config/services/clamav "`cat /tmp/clamav.josn`"
+  tags: Setup clamav
+
+- name: couchpotato Config
+  shell: omv-config -m /config/services/couchpotato "`cat /tmp/couchpotato.josn`"
+  tags: Setup couchpotato
+
+- name: downloader Config
+  shell: omv-config -m /config/services/downloader "`cat /tmp/downloader.josn`"
+  tags: Setup downloader
+
+- name: sickbeard Config
+  shell: omv-config -m /config/services/sickbeard "`cat /tmp/sickbeard.josn`"
+  tags: Setup sickbeard
+
+- name: Time Config
+  shell: omv-config -m /config/system/time "`cat /tmp/time.josn`"
+  tags: Setup time
+
+- name: Network Config
+  shell: omv-config -m /config/system/network "`cat /tmp/network.josn`"
+  tags: Network time
+
+#####Adding Groups########
+# - name: Adding groups
+#   group:
+#    name: "{{ item }}"
+#    state: present
+#   with_items: "{{ user_groups }}"
+#
+# #####Adding Users########
+# - name: Adding users
+#   user:
+#    shell: /bin/bash
+#    name: "{{ item.key }}"
+#    groups: "{{ item.value.groups }}"
+#    append: yes
+#    password: "{{ item.value.password }}"
+#   with_dict: "{{ users_accounts }}"
+#   tags: user_setup
+#
+# ###Adding SSh-keys###
+# - name: Adding ssh keys
+#   authorized_key:
+#     user: "{{ item.key }}"
+#     key: "{{ item.value.key }}"
+#   with_dict: "{{ users_accounts }}"
+#   tags: user_setup
+###Configure log rotation###
+##for
+
+#sickbeard
+- name: Getting sickbeard log rate info
+  template: src={{role_path}}/templates/logroate/sickbeard.json dest=/etc/logrotate.d/sickbeard
+  tags: Setup log rate sickbeard
+
+#couchpotato
+- name: Getting couchpotato log rate info
+  template: src={{role_path}}/templates/logroate/couchpotato.json dest=/etc/logrotate.d/couchpotato
+  tags: Setup log rate couchpotato
+
+- name: Rebuild openmediavault config file
+  shell: "for i in `omv-mkconf -l`; do omv-mkconf $i; done"
+  tags: OVM_config rebuild

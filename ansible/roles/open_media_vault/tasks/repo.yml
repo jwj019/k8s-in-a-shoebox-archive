@@ -1,0 +1,36 @@
+---
+- name: Add common software
+  become_method: sudo
+  apt:
+    name: software-properties-common
+  tags: install-package
+
+- name: Add PHP repo
+  apt_repository:
+    repo: ppa:ondrej/php
+
+- name: Add omv apt key
+  become_method: sudo
+  apt_key:
+    url: http://packages.openmediavault.org/public/archive.key
+    state: present
+  tags: repo
+
+#Repo varable
+- name: Add openmediavault repository in sources.list.d/
+  become_method: sudo
+  apt_repository:
+    repo: "{{ item }}"
+    update_cache: yes
+  with_items: '{{ repo }}'
+  environment:
+    DEBIAN_FRONTEND: noninteractive
+  tags: repo
+
+- name: upgrade packages
+  become_method: sudo
+  apt:
+    update_cache: yes
+    upgrade: dist
+    cache_valid_time: 86400
+  tags: install-package
