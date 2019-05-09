@@ -11,7 +11,7 @@ The scripts within this repo are written with these images in mind, but should i
 QUICKSTART
 
 1) Flash SD cards with the following images:
-  - Odroid XU4 - http://east.us.odroid.in/ubuntu_18.04lts/ubuntu-18.04-4.14-minimal-odroid-xu4-20180531.img.xz
+  - Odroid XU4 - https://superb-dca2.dl.sourceforge.net/project/openmediavault/OMV%204.x%20for%20Single%20Board%20Computers/OMV_4_Odroid_XU4_HC1_HC2.img.xz
   - Odroid C2 - http://east.us.odroid.in/ubuntu_18.04lts/ubuntu-18.04-3.16-minimal-odroid-c2-20180626.img.xz
   - Raspberry Pi 3 B+ - https://downloads.raspberrypi.org/raspbian_lite_latest
 
