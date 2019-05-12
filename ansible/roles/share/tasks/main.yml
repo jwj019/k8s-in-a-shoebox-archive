@@ -4,6 +4,8 @@
 #
 
 - include: enable_ssh.yml
+- include: repos.yml
+- include: drive-settings.yml
 # Add further tasks for the common role (applied to all servers) to this playbook...
 
 ...
