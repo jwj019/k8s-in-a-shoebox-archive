@@ -2,17 +2,20 @@
 
 - name: Remove old backports
   become: true
-  file: /etc/apt/sources.list.d/openmediavault-kernel-backports.list
+  file:
+    path: /etc/apt/sources.list.d/openmediavault-kernel-backports.list
     state: absent
 
 - name: Remove old kyle117 cosmic
   become: true
-  file: /etc/apt/sources.list.d/kyle1117-ubuntu-ppa-cosmic.list
+  file:
+    path: /etc/apt/sources.list.d/kyle1117-ubuntu-ppa-cosmic.list
     state: absent
 
 - name: Remove old kyle117 eoan
   become: true
-  file: /etc/apt/sources.list.d/kyle1117-ubuntu-ppa-eoan.list
+  file:
+    path: /etc/apt/sources.list.d/kyle1117-ubuntu-ppa-eoan.list
     state: absent
 
 - name: apt clean
@@ -24,3 +27,5 @@
   apt:
     update_cache: yes
     upgrade: yes
+  environment:
+    DEBIAN_FRONTEND: noninteractive
